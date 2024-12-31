@@ -1,0 +1,17 @@
+# Archivos y directorios de Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# Configuración específica de tu entorno
+.env
+*.sqlite3
+
+# Archivos de logs
+*.log
+
+# Archivos de sistema
+.vscode/
+*.swp
+Thumbs.db
