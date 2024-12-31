@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Enlace a Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Enlace a Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Mi To-Do List</h1>
+
+        <!-- Bloque para mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="mt-3">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show text-center fw-bold shadow-lg" role="alert">
+                            <i class="bi bi-info-circle me-2"></i> <!-- Icono -->
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulario para agregar tareas -->
+        <form method="POST" action="/" class="mb-4">
+            <div class="mb-3">
+                <label for="task" class="form-label">Nueva Tarea</label>
+                <input type="text" class="form-control" id="task" name="task" placeholder="Escribe una tarea" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+        </form>
+
+        <!-- Formulario para filtrar y buscar tareas -->
+        <form method="GET" action="/" class="d-flex align-items-center mb-4">
+            <label for="filtro" class="me-2">Mostrar:</label>
+            <select name="filtro" id="filtro" class="form-select w-auto me-2">
+                <option value="todas" {% if filtro == 'todas' %}selected{% endif %}>Todas</option>
+                <option value="pendientes" {% if filtro == 'pendientes' %}selected{% endif %}>Pendientes</option>
+                <option value="completadas" {% if filtro == 'completadas' %}selected{% endif %}>Completadas</option>
+            </select>
+            <input type="text" name="busqueda" class="form-control w-auto me-2" placeholder="Buscar tareas" value="{{ busqueda }}">
+            <button type="submit" class="btn btn-secondary">Filtrar</button>
+        </form>
+
+        <!-- Contadores de tareas -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Tareas</h2>
+            <div>
+                <span class="badge bg-primary">Pendientes: {{ pendientes }}</span>
+                <span class="badge bg-success">Completadas: {{ completadas }}</span>
+            </div>
+        </div>
+
+        <!-- Lista de tareas -->
+        <ul class="list-group">
+            {% for tarea in tareas %}
+            <li class="list-group-item d-flex justify-content-between align-items-center {% if tarea[2] == 'completada' %}list-group-item-success{% else %}list-group-item-light{% endif %}">
+                <div {% if tarea[2] == 'completada' %}style="text-decoration: line-through;"{% endif %}>
+                    {{ tarea[1] }} <!-- Texto de la tarea -->
+                </div>
+                <div>
+                    <!-- Botón Completar -->
+                    {% if tarea[2] == 'pendiente' %}
+                    <a href="/completar/{{ tarea[0] }}" class="btn btn-success btn-sm">Completar</a>
+                    {% endif %}
+                    <!-- Botón Editar -->
+                    <a href="/editar/{{ tarea[0] }}" class="btn btn-warning btn-sm">Editar</a>
+                    <!-- Botón Eliminar -->
+                    <a href="/eliminar/{{ tarea[0] }}" class="btn btn-danger btn-sm">Eliminar</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
