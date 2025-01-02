@@ -1,5 +1,3 @@
-Documentación del Proyecto - To-Do List
-
 Este proyecto es una aplicación web simple para gestionar tareas, desarrollada utilizando Flask y SQLite. 
 La aplicación permite a los usuarios registrarse, iniciar sesión y gestionar sus tareas personales mediante funcionalidades de CRUD (Crear, Leer, Actualizar y Eliminar). 
 Con una interfaz intuitiva y estilizada con Bootstrap, los usuarios pueden agregar nuevas tareas, marcarlas como completadas, editarlas o eliminarlas. 
